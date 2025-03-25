@@ -1,9 +1,13 @@
-import { defineNuxtConfig } from "nuxt/config";
-
-export default defineNuxtConfig({
+// nuxt.config.ts
+export default {
 	router: {
-		options: {
-			strict: true,
-		},
+	  extendRoutes(routes, resolve) {
+		routes.push({
+		  name: 'terms',
+		  path: '/terms',
+		  component: resolve(__dirname, 'account/pages/terms/terms.vue'),
+		});
+	  },
 	},
-});
+  };
+  

@@ -37,12 +37,20 @@ export default defineNuxtModule({
             themeDir,
             "account/pages/withdraw/AccountWithdrawPage.vue"
           ),
+        },{
+          name: "AdminCodeInputPage",
+          path: "/account/admin-code",
+          file: resolve(
+            themeDir,
+            "account/pages/adminLogin/AdminCodeInputPage.vue"
+          ),
+        }
+        ,{
+          name: "AccounTermsPage",
+          path: "/account/terms",
+          file: resolve(themeDir, "account/pages/terms/TermsPage.vue"),
         },
-        {
-          name: "AccountModifyPage",
-          path: "/account/modify",
-          file: resolve(themeDir, "account/pages/modify/AccountModifyPage.vue"),
-        },
+        
 
         {
           name: "AdminCodeInputPage",

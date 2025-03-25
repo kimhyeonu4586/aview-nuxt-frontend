@@ -8,6 +8,7 @@
           2025-2026 JOBSTICK Korea LLC. All Rights Reserved.
         </p>
       </div>
+      <!-- 페이지 내용 표시 -->
       <NuxtPage />
     </v-main>
   </v-app>

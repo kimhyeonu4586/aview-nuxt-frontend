@@ -26,9 +26,9 @@
 </template>
 
 <script>
-import image1 from '@/assets/images/fixed/in.webp';
-import image2 from '@/assets/images/fixed/dc.webp';
-import image3 from '@/assets/images/fixed/cam.webp';
+import image1 from '@/assets/images/fixed/in.jpg';
+import image2 from '@/assets/images/fixed/dc.jpg';
+import image3 from '@/assets/images/fixed/cam.jpg';
 
 export default {
   name: "HomePage7",
