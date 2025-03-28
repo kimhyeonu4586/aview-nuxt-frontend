@@ -107,7 +107,9 @@ export const accountAction = {
     }
   },
 
-  async requestWithdrawalToDjango(payload: {reason: string;}): Promise<AxiosResponse> {
+  async requestWithdrawalToDjango(payload: {
+    reason: string;
+  }): Promise<AxiosResponse> {
     const { djangoAxiosInstance } = axiosUtility.createAxiosInstances();
     const userToken = localStorage.getItem("userToken");
     const { reason } = payload;
@@ -196,6 +198,8 @@ export const accountAction = {
       throw error;
     }
   },
+
+  //user정보 요청
   async requestProfileToDjango(payload: {
     email: string;
     nickname: string;
@@ -205,29 +209,29 @@ export const accountAction = {
     const { djangoAxiosInstance } = axiosUtility.createAxiosInstances();
     const userToken = localStorage.getItem("userToken");
     const accountStore = useAccountStore();
-  
+
     try {
-      const res: AxiosResponse = await djangoAxiosInstance.post(
+      const userInfo: AxiosResponse = await djangoAxiosInstance.post(
         "/account_profile/request-info",
         {
-          email: payload.email,
-          nickname: payload.nickname,
-          gender: payload.gender,
-          birthyear: payload.birthyear
+          userToken,
+          //email: payload.email,
+          //nickname: payload.nickname,
+          //gender: payload.gender,
+          //birthyear: payload.birthyear,
         }
       );
-  
+
       // 받은 데이터를 Pinia store에 저장
-      //accountAction.email = res.data.email;
-      accountStore.nickname = res.data.nickname;
-      accountStore.gender = res.data.gender;
-      accountStore.birthyear = res.data.birthyear;
-  
-      return res;
+      accountStore.email = userInfo.data.email;
+      accountStore.nickname = userInfo.data.nickname;
+      accountStore.gender = userInfo.data.gender;
+      accountStore.birthyear = userInfo.data.birthyear;
+
+      return userInfo;
     } catch (error) {
       console.error("requestProfileToDjango() 문제 발생:", error);
       throw error;
     }
-  }
-  
+  },
 };
