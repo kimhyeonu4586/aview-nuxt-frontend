@@ -110,15 +110,16 @@ export const accountAction = {
       throw error;
     }
   },
+
   async requestWithdrawalToDjango(payload: {
     reason: string;
   }): Promise<AxiosResponse> {
     const { djangoAxiosInstance } = axiosUtility.createAxiosInstances();
-    const userToken = sessionStorage.getItem("userToken");
+    const userToken = localStorage.getItem("userToken");
     const { reason } = payload;
     try {
       const res: AxiosResponse = await djangoAxiosInstance.post(
-        "/account/withdraw",
+        "/account/request-withdraw",
         { reason: reason, userToken: userToken }
       );
       return res.data;
@@ -127,6 +128,7 @@ export const accountAction = {
       throw error;
     }
   },
+
   async requestGenderToDjango(email: string): Promise<any> {
     const { djangoAxiosInstance } = axiosUtility.createAxiosInstances();
     const accountStore = useAccountStore();

@@ -1,28 +1,6 @@
 <template>
-  <div class="home-four">
-    <h1>JOBSTICK의 주요 기능</h1>
-    <p class="intro-text">JOBSTICK을 통해 실전 면접에 필요한 여러 시스템을 이용해 보세요.</p>
-
-    <div class="content-container">
-      <div 
-        v-for="(image, index) in images" 
-        :key="index" 
-        v-show="currentIndex === index" 
-        class="content-box"
-      >
-        <div class="content-description">
-          <h2>{{ contentTitles[index] }}</h2>
-          <p>{{ contentDescriptions[index] }}</p>
-        </div>
-        <div class="content-image">
-          <img :src="image" :alt="`이미지 ${index + 1}`" />
-        </div>
-      </div>
-    </div>
-
-    <!-- 스크롤 올리기 버튼 -->
-    <a class="scroll" href="#" @click.prevent="scrollToTop">Go Top</a>
-  </div>
+  <!-- 스크롤 올리기 버튼 -->
+  <a class="scroll" href="#" @click.prevent="scrollToTop">Go Top</a>
 </template>
 
 <script>
@@ -65,113 +43,25 @@ export default {
 </script>
 
 <style scoped>
-.home-four {
-  width: 100%;
-  min-height: 100vh;
-  background: url("@/assets/images/fixed/home_bg2.jpg") center center;
-  background-size: cover;
-  background-attachment: fixed;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 240px 30px;
+*,
+*:before,
+*:after {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
-.intro-text {
-  color: #333;
-  font-size: 2rem;
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-h1 {
-  color: #333;
-  font-size: 3rem;
-  font-weight: bold;
-  margin-bottom: 20px;
-  margin-top: 10px;
-  text-align: center;
-}
-
-.content-container {
-  position: relative;
-  width: 80%;
-  height: 400px;
-  overflow: hidden;
-}
-
-.content-box {
-  width: 100%;
-  height: 100%;
-  padding: 15px;
-  box-sizing: border-box;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: row;
-  gap: 20px;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  transition: opacity 1s ease-in-out;
-  justify-content: center;
-  align-items: center;
-}
-
-.content-description {
-  width: 50%;
-  font-size: 18px;
-  color: #333;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  text-align: center;
-}
-
-.content-description h2 {
-  font-size: 1.8rem;
-  margin-bottom: 10px;
-}
-
-.content-image {
-  width: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.content-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transform: scale(1.05);
-  border-radius: 8px;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
-}
-
-/* 스크롤 올리기 버튼 */
 .scroll {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  font-size: 2rem;
-  color: #fff;
+  position: relative;
+  display: block;
+  font-size: 1.5vh;
+  color: rgba(255, 255, 255, 1);
   text-decoration: none;
-  padding: 1vh 1vh 1vh 4vh;
-  background-color: transparent;
-  border: 2px solid #fff;
-  border-radius: 30px;
+  padding: 1vh 1vh 1vh 4vh; /* 기존 코드와 동일한 간격 */
   display: flex;
-  justify-content: center;
+  flex-direction: column; /* 세로 정렬 유지 */
   align-items: center;
-  cursor: pointer;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-  transition: background-color 0.3s ease;
+  gap: 0.9vh; /* 기존 코드의 요소 간 간격 반영 */
 }
 
 .scroll::before {
@@ -188,14 +78,10 @@ h1 {
   animation: bounce 1.5s infinite;
 }
 
-.scroll:hover {
-  background-color: #fff;
-  color: #007bff;
-}
-
 /* 애니메이션 */
 @keyframes bounce {
-  0%, 100% {
+  0%,
+  100% {
     transform: translate(-50%, -50%) translateY(0);
   }
   50% {

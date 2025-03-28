@@ -14,17 +14,12 @@ export const naverAuthenticationAction = {
       console.log("requestNaverOauthRedirectionToDjango() 중 에러:", error);
     }
   },
-
-  async requestAccessToken(
-    code: string,
-    state: string
-  ): Promise<string | null> {
+  async requestAccessToken(code: string): Promise<string | null> {
     const { djangoAxiosInstance } = axiosUtility.createAxiosInstances();
     try {
-      console.log("보내는 데이터:", { code, state });
       const response = await djangoAxiosInstance.post(
         "/naver-oauth/redirect-access-token",
-        { code, state }
+        code
       );
       return response.data.userToken;
     } catch (error) {
@@ -32,7 +27,6 @@ export const naverAuthenticationAction = {
       throw error;
     }
   },
-
   async requestLogout(userToken: string): Promise<void> {
     const { djangoAxiosInstance } = axiosUtility.createAxiosInstances();
 

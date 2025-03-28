@@ -90,15 +90,11 @@
         <v-divider class="mt-5 mb-7" :thickness="3"></v-divider>
 
         <!-- 카카오 로그인 버튼 -->
-        <v-btn class="kakao-login-btn" @click="openTermsPopup">
-        </v-btn>
+        <v-btn class="kakao-login-btn" @click="openTermsPopup"></v-btn>
 
         <!-- 구글, 네이버 로그인 버튼 -->
-        <v-btn class="google-login-btn" @click="goToGoogleLogin">
-        </v-btn>
-
-        <v-btn class="naver-login-btn" @click="goToNaverLogin">
-        </v-btn>
+        <v-btn class="google-login-btn" @click="goToGoogleLogin"></v-btn>
+        <v-btn class="naver-login-btn" @click="goToNaverLogin"></v-btn>
 
         <!-- 관리자 로그인 -->
         <v-btn class="admin-login-btn" @click="goToAdminLogin" block>
@@ -119,10 +115,10 @@ const termsDialog = ref(false); // 약관 동의 팝업 상태
 const login_flag = ref(true); // 로그인 상태
 const isEmailCollect = ref(false); // 이메일 입력 상태
 const isPasswordCollect = ref(false); // 비밀번호 입력 상태
-
-const kakaoAuthentication = useKakaoAuthenticationStore();
+const dialog = ref(false);
 
 // 카카오 로그인
+const kakaoAuthentication = useKakaoAuthenticationStore();
 const goToKakaoLogin = async () => {
   localStorage.setItem("loginType", "KAKAO");
   await kakaoAuthentication.requestKakaoLoginToDjango();
@@ -153,8 +149,8 @@ const goToGoogleLogin = async () => {
 
 // 네이버 로그인
 const goToNaverLogin = async () => {
-  alert("네이버 로그인 진행 중...");
-  // 네이버 로그인 처리 로직 추가
+  localStorage.setItem("loginType", "NAVER");
+  await naverAuthentication.requestNaverLoginToDjango();
 };
 
 // 관리자 로그인
@@ -221,12 +217,6 @@ const goToAdminLogin = () => {
   }
 }
 
-
-
-
-
-
-
 /* Kakao 로그인 버튼 설정 */
 .kakao-login-btn {
   background-image: url("@/assets/images/fixed/btn_login_kakao.png");
@@ -268,37 +258,6 @@ const goToAdminLogin = () => {
   border-radius: 1.4vh;
   max-width: 600px; /* 가로 크기 변경 */
   height: 50px;
-}
-
-.v-text-field input {
-  background-color: transparent !important;
-  color: black !important;
-}
-
-.v-label {
-  color: black !important;
-}
-
-:deep(.v-label.v-field-label) {
-  color: rgba(255, 255, 255, 0.8) !important;
-}
-
-:deep(.v-text-field input) {
-  color: #fff;
-}
-
-:deep(.mdi-eye::before),
-:deep(.mdi-eye-off::before) {
-  color: rgba(255, 255, 255, 0.8) !important;
-}
-
-:deep(.v-messages__message) {
-  color: rgb(0, 0, 255) !important;
-  font-size: 12px;
-}
-
-:deep(.v-field--error:not(.v-field--disabled) .v-label.v-field-label) {
-  color: rgba(0, 0, 255, 0.8) !important;
 }
 
 .admin-login-btn {

@@ -11,15 +11,18 @@
             label="설문지 이름을 작성하세요."
             v-model="reviewTitle"
             @keyup.enter="disableEnter"
-            :rules="[(v) => !!v || '설문지 이름은 필수 항목입니다']"
+            :rules="[
+              (v) => (v && v.trim() !== '') || '질문 제목은 필수 항목입니다.',
+            ]"
             required
+            lazy-rules
           ></v-text-field>
           <v-text-field
             class="headline"
             label="설문지에 대한 설명을 작성하세요."
             v-model="reviewDescription"
             @keyup.enter="disableEnter"
-            :rules="[(v) => !!v || '설명은 필수 항목입니다']"
+            :rules="[(v) => (v && v.trim() !== '') || '설명은 필수 항목입니다']"
             aria-required=""
           ></v-text-field>
           <v-btn
@@ -211,14 +214,17 @@
                 />
               </v-radio-group>
 
-              <v-checkbox-group v-if="question.questionType === 'checkbox'">
-                <v-checkbox
-                  v-for="option in question.selection"
-                  :key="option"
-                  :label="option"
-                  :value="option"
-                ></v-checkbox>
-              </v-checkbox-group>
+              <v-row v-if="question.questionType === 'checkbox'">
+                <v-col cols="12">
+                  <v-checkbox
+                    v-for="option in question.selection"
+                    :key="option"
+                    v-model="question.selectedOptions"
+                    :label="option"
+                    :value="option"
+                  ></v-checkbox>
+                </v-col>
+              </v-row>
             </v-card-text>
           </v-card>
         </v-col>

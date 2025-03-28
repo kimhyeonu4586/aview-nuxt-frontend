@@ -29,9 +29,12 @@
 
 <script setup>
 import { ref, computed } from "vue";
-import { useAccountStore } from "../../stores/accountStore";
+import { useAccountStore } from "@/stores/accountStore";
 import { useKakaoAuthenticationStore } from "../../../kakaoAuthentication/stores/kakaoAuthenticationStore";
+import { useNaverAuthenticationStore } from "../../../naverAuthentication/stores/naverAuthenticationStore";
+import { useAuthenticationStore } from "../../../authentication/stores/authenticationStore";
 import { useRouter } from "vue-router";
+import { naverAuthenticationState } from "~/naverAuthentication/stores/naverAuthenticationState";
 
 // 탈퇴 사유 리스트
 const reasons = ref([
@@ -49,6 +52,8 @@ const dialog = ref(false);
 // store와 router 사용 설정
 const accountStore = useAccountStore();
 const kakaoAuthenticationStore = useKakaoAuthenticationStore();
+const naverAuthenticationStore = useNaverAuthenticationStore();
+const authentication = useAuthenticationStore();
 const router = useRouter();
 
 // 버튼 활성화 여부 계산
@@ -70,7 +75,13 @@ const submitWithdrawal = () => {
 // 다이얼로그 닫기 처리 및 로그아웃
 const closeDialog = () => {
   dialog.value = false;
-  kakaoAuthenticationStore.requestLogout();
+  //kakaoAuthenticationStore.requestLogout();
+  //naverAuthenticationStore.requestLogout();
+  authentication.isAuthenticated = false;
+  naverAuthenticationStore.isAuthenticated = false;
+  kakaoAuthenticationStore.isAuthenticated = false;
+  localStorage.removeItem("userToken");
+  localStorage.removeItem("loginType");
   router.push("/");
 };
 </script>

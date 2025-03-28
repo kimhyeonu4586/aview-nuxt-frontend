@@ -17,11 +17,7 @@ const route = useRoute();
 
 const setRedirectNaverData = async () => {
   const code = route.query.code;
-  const state = route.query.state;
-  const userToken = await naverAuthenticationStore.requestAccessToken({
-    code,
-    state,
-  });
+  const userToken = await naverAuthenticationStore.requestAccessToken({ code });
 
   localStorage.setItem("userToken", userToken);
   naverAuthenticationStore.isAuthenticated = true;
