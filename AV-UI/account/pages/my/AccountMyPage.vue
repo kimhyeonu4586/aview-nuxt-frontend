@@ -15,9 +15,9 @@
             <v-row class="myinfo">
               <v-col cols="12">
                 <v-icon>{{
-                  gender === "MALE" ? "mdi-gender-male" : "mdi-gender-female"
+                  gender === "male" ? "mdi-gender-male" : "mdi-gender-female"
                 }}</v-icon>
-                <span class="ml-1">{{ gender === "MALE" ? "남성" : "여성" }}</span>
+                <span class="ml-1">{{ gender === "male" ? "남성" : "여성" }}</span>
                 &nbsp;&nbsp;&nbsp;
                 <v-icon>mdi-calendar</v-icon>
                 <span class="ml-1">{{ birthyear }}</span>
@@ -119,21 +119,28 @@ const accountStore = useAccountStore();
 const router = useRouter();
 
 onMounted(async () => {
+  const storedUserToken = localStorage.getItem('userToken');
+  if (!storedUserToken) {
+    console.warn("userToken이 없습니다.");
+    //return;
+  }
+
   try {
-    const storedEmail = sessionStorage.getItem('email');
-    await accountStore.requestProfileToDjango({'email':storedEmail})
-    if (storedEmail) {
-      const nicknameValue = await accountStore.nickname;
-      const genderValue = await accountStore.gender;
-      const birthyearValue = await accountStore.birthyear;
-      
-      email.value = storedEmail;
-      nickname.value = nicknameValue;
-      gender.value = genderValue;
-      birthyear.value = birthyearValue;
-    }
+    // 서버에 userToken을 보내 사용자 정보 요청
+    const res = await accountStore.requestProfileToDjango({
+      email: '',
+      nickname: '',
+      gender: '',
+      birthyear: 0,
+    });
+
+// 응답으로부터 store에 저장된 값들을 화면에 반영
+    email.value = res.data.email;
+    nickname.value = res.data.nickname;
+    gender.value = res.data.gender;
+    birthyear.value = res.data.birthyear;
   } catch (error) {
-    console.log('사용자 정보를 가져오는 과정에서 에러 발생:', error);
+    console.error("사용자 정보 로딩 실패:", error);
   }
 });
 

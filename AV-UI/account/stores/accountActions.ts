@@ -96,10 +96,6 @@ export const accountAction = {
         email: email,
         password: password,
       });
-
-      // res의 타입을 명시적으로 정의하고 싶다면, 아래와 같이 사용할 수 있습니다.
-      // const res: AxiosResponse = await djangoAxiosInstance.post('/account/account-check', { email: email, password: password });
-
       if (res.data.isDuplicate) {
         return true;
       } else {
@@ -111,9 +107,7 @@ export const accountAction = {
     }
   },
 
-  async requestWithdrawalToDjango(payload: {
-    reason: string;
-  }): Promise<AxiosResponse> {
+  async requestWithdrawalToDjango(payload: {reason: string;}): Promise<AxiosResponse> {
     const { djangoAxiosInstance } = axiosUtility.createAxiosInstances();
     const userToken = localStorage.getItem("userToken");
     const { reason } = payload;
@@ -202,20 +196,38 @@ export const accountAction = {
       throw error;
     }
   },
-  async requestProfileToDjango(email: string): Promise<any> {
+  async requestProfileToDjango(payload: {
+    email: string;
+    nickname: string;
+    gender: string;
+    birthyear: number;
+  }): Promise<AxiosResponse> {
     const { djangoAxiosInstance } = axiosUtility.createAxiosInstances();
+    const userToken = localStorage.getItem("userToken");
     const accountStore = useAccountStore();
+  
     try {
       const res: AxiosResponse = await djangoAxiosInstance.post(
-        "/account/profile",
-        email
+        "/account_profile/request-info",
+        {
+          email: payload.email,
+          nickname: payload.nickname,
+          gender: payload.gender,
+          birthyear: payload.birthyear
+        }
       );
-      this.nickname = res.data.nickname;
-      this.gender = res.data.gender;
-      this.birthyear = res.data.birthyear;
+  
+      // 받은 데이터를 Pinia store에 저장
+      //accountAction.email = res.data.email;
+      accountStore.nickname = res.data.nickname;
+      accountStore.gender = res.data.gender;
+      accountStore.birthyear = res.data.birthyear;
+  
+      return res;
     } catch (error) {
-      console.error("requestBirthyearToDjango() 문제 발생:", error);
+      console.error("requestProfileToDjango() 문제 발생:", error);
       throw error;
     }
-  },
+  }
+  
 };
